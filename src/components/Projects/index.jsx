@@ -1,219 +1,283 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FaLinkedin, FaTwitter } from "react-icons/fa";
-import { MdEmail } from "react-icons/md";
-import {
-  SiJavascript,
-  SiNextdotjs,
-  SiFramer,
-  SiMui,
-  SiTailwindcss,
-} from "react-icons/si";
-import { FaReact, FaHtml5, FaCss3Alt, FaBootstrap, FaGithub } from "react-icons/fa";
+import { FaGithub, FaExternalLinkAlt } from "react-icons/fa";
+import { HiX } from "react-icons/hi";
 import portfolio from "../portfolio.json";
-import AdminDB from '../../../public/AdminDB.png'
-import youtubeClone from '../../../public/youtubeClone.png'
-import SocialMedia from '../../../public/SocialMEdia.png'
-import AAvisaConsultancy from '../../../public/AAvisaConsultancy.png'
-import fitClubIMG from '../../../public/fitClubIMG.png'
-import portfolioIMG from '../../../public/portfolioIMG.png'
-const imageMap = {
+import AdminDB from "../../../public/AdminDB.png";
+import youtubeClone from "../../../public/youtubeClone.png";
+import SocialMedia from "../../../public/SocialMEdia.png";
+import AAvisaConsultancy from "../../../public/AAvisaConsultancy.png";
+import fitClubIMG from "../../../public/fitClubIMG.png";
+import portfolioIMG from "../../../public/portfolioIMG.png";
 
-  AdminDB,
+const imageMap = { AdminDB, youtubeClone, SocialMedia, AAvisaConsultancy, fitClubIMG, portfolioIMG };
 
-  youtubeClone,
-
-  SocialMedia,
-
-  AAvisaConsultancy,
-
-  fitClubIMG,
-
-  portfolioIMG,
-}
-const Card = ({ children, className = "" }) => (
-  <div
-    className={`rounded-2xl border border-black/10 dark:border-white/10 bg-white dark:bg-zinc-900 shadow-sm ${className}`}
-  >
-    {children}
-  </div>
-);
-
-const Button = ({ href, children, onClick, variant = "solid" }) => {
-  const base =
-    "inline-flex items-center justify-center rounded-xl px-4 py-2 text-sm font-semibold transition active:scale-[.98]";
-  const styles = {
-    solid: "bg-black text-white dark:bg-white dark:text-black hover:opacity-90",
-    outline:
-      "border border-black/10 dark:border-white/10 hover:bg-black/5 dark:hover:bg-white/5",
-  };
-  const C = href ? "a" : "button";
-  return (
-    <C href={href} onClick={onClick} className={`${base} ${styles[variant]}`}>
-      {children}
-    </C>
-  );
+const cardVariants = {
+  hidden: { opacity: 0, y: 24 },
+  visible: (i) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.45, delay: i * 0.1 },
+  }),
 };
+
+const ProjectCard = ({ p, index, onClick }) => (
+  <motion.article
+    custom={index}
+    variants={cardVariants}
+    initial="hidden"
+    whileInView="visible"
+    viewport={{ once: true, amount: 0.2 }}
+    whileHover={{ y: -4 }}
+    transition={{ duration: 0.2 }}
+    className="group relative cursor-pointer"
+    onClick={onClick}
+  >
+    <div className="rounded-2xl border border-black/[0.08] dark:border-white/[0.08] bg-white dark:bg-zinc-900 shadow-sm overflow-hidden transition-shadow duration-300 group-hover:shadow-xl group-hover:shadow-purple-500/10">
+      {/* Image */}
+      <div className="relative w-full h-44 overflow-hidden bg-zinc-100 dark:bg-zinc-800">
+        <img
+          src={imageMap[p.image]}
+          alt={p.title}
+          loading="lazy"
+          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+        />
+        {/* Hover overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+          <span className="text-white text-sm font-medium">Click to explore →</span>
+        </div>
+      </div>
+
+      {/* Body */}
+      <div className="p-5 flex flex-col gap-3">
+        <h3 className="text-lg font-bold text-zinc-900 dark:text-zinc-100 group-hover:bg-gradient-to-r group-hover:from-purple-500 group-hover:to-pink-500 group-hover:text-transparent group-hover:bg-clip-text transition-all duration-300">
+          {p.title}
+        </h3>
+        <p className="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed line-clamp-2">
+          {p.tagline}
+        </p>
+
+        {/* Tech tags */}
+        <div className="flex flex-wrap gap-1.5">
+          {p.tech.map((t) => (
+            <span
+              key={t}
+              className="rounded-full bg-purple-50 dark:bg-purple-950/40 text-purple-700 dark:text-purple-300 border border-purple-200/60 dark:border-purple-800/40 px-2.5 py-0.5 text-xs font-medium"
+            >
+              {t}
+            </span>
+          ))}
+        </div>
+
+        {/* Links */}
+        <div className="flex gap-2 pt-1">
+          {p.links.live && (
+            <a
+              href={p.links.live}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-sm hover:shadow-purple-400/30 hover:scale-[1.03] transition-all"
+            >
+              <FaExternalLinkAlt size={10} /> Live Demo
+            </a>
+          )}
+          {p.links.repo && (
+            <a
+              href={p.links.repo}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg border border-black/10 dark:border-white/10 hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
+            >
+              <FaGithub size={11} /> GitHub
+            </a>
+          )}
+        </div>
+      </div>
+    </div>
+  </motion.article>
+);
 
 const Projects = () => {
   const [showAll, setShowAll] = useState(false);
+  const [selected, setSelected] = useState(null);
   const visibleProjects = portfolio.projects.slice(0, 4);
   const remainingProjects = portfolio.projects.slice(4);
 
   return (
     <>
-      <div className="md:col-span-2 text-center">
-        <h2 className="text-4xl font-extrabold">
+      {/* Header */}
+      <div className="text-center mb-12">
+        <motion.h2
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-3xl sm:text-4xl font-extrabold"
+        >
           Featured{" "}
           <span className="bg-gradient-to-r from-purple-500 via-pink-500 to-sky-500 bg-clip-text text-transparent">
             Projects
           </span>
-        </h2>
+        </motion.h2>
+        <motion.p
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.2 }}
+          className="mt-3 text-sm text-zinc-500 dark:text-zinc-400"
+        >
+          A selection of things I've built — click any card to explore
+        </motion.p>
+        <div className="mx-auto mt-4 h-1 w-16 rounded-full bg-gradient-to-r from-purple-500 to-pink-500" />
       </div>
 
-      <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-2 relative">
+      {/* Grid */}
+      <div className="grid gap-5 sm:grid-cols-2">
         {visibleProjects.map((p, index) => (
-          <motion.article
-            key={p.title}
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.4 }}
-            className="group relative"
-          >
-            <Card className="overflow-hidden transition-all duration-300 hover:shadow-lg hover:bg-gradient-to-r hover:from-purple-50 hover:to-pink-50 dark:hover:from-zinc-800 dark:hover:to-zinc-900">
-              <div className="w-full h-40 overflow-hidden relative">
-                <img
-                  // src={p.image}
-                  src={imageMap[p.image]}
-                  alt={p.title}
-                  loading="lazy"
-                  className="w-full h-full object-cover transition group-hover:scale-105"
-                  // className="w-full h-full object-cover opacity-0 transition-all duration-700 ease-out"
-                />
+          <div key={p.title} className="relative">
+            <ProjectCard p={p} index={index} onClick={() => setSelected(p)} />
 
-                {/* WhatsApp-style overlay */}
-                {index === 3 && remainingProjects.length > 0 && (
-                  <div
-                    onClick={() => setShowAll(true)}
-                    className="absolute inset-0 bg-black/60 flex items-center justify-center text-white text-3xl font-semibold cursor-pointer"
-                  >
-                    +{remainingProjects.length}
-                  </div>
-                )}
+            {/* "+N more" overlay on last card */}
+            {index === 3 && remainingProjects.length > 0 && (
+              <div
+                onClick={() => setShowAll(true)}
+                className="absolute inset-0 rounded-2xl bg-black/55 backdrop-blur-[2px] flex flex-col items-center justify-center gap-2 cursor-pointer z-10"
+              >
+                <span className="text-white text-4xl font-extrabold">+{remainingProjects.length}</span>
+                <span className="text-white/80 text-sm font-medium">more projects</span>
               </div>
+            )}
+          </div>
+        ))}
+      </div>
 
-              <div className="p-5 flex flex-col gap-4">
-                <div className="flex items-center gap-3">
-                  <div className="p-3 rounded-xl bg-purple-100 text-purple-600 dark:bg-zinc-700 dark:text-purple-400">
-                    {p.icon}
-                  </div>
-                  <h3
-                    className="text-2xl font-bold transition duration-300 
-                               group-hover:bg-gradient-to-r group-hover:from-purple-500 
-                               group-hover:to-pink-500 group-hover:text-transparent 
-                               group-hover:bg-clip-text"
-                  >
-                    {p.title}
-                  </h3>
-                </div>
-
-                <p className="text-sm text-zinc-600 dark:text-zinc-300">{p.tagline}</p>
-
-                <div className="flex flex-wrap gap-2">
-                  {p.tech.map((t) => (
-                    <span
-                      key={t}
-                      className="rounded-full border border-black/10 dark:border-white/10 px-2 py-0.5 text-xs"
-                    >
+      {/* ── Single Project Detail Modal ── */}
+      <AnimatePresence>
+        {selected && (
+          <motion.div
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setSelected(null)}
+          >
+            <motion.div
+              className="bg-white dark:bg-zinc-900 rounded-2xl w-full max-w-lg overflow-hidden shadow-2xl"
+              initial={{ scale: 0.9, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.9, opacity: 0, y: 20 }}
+              transition={{ duration: 0.25 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="relative h-52 overflow-hidden">
+                <img src={imageMap[selected.image]} alt={selected.title} className="w-full h-full object-cover" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+                <button
+                  onClick={() => setSelected(null)}
+                  className="absolute top-3 right-3 w-8 h-8 rounded-full bg-black/50 text-white flex items-center justify-center hover:bg-black/70 transition-colors"
+                >
+                  <HiX size={14} />
+                </button>
+                <h3 className="absolute bottom-4 left-5 text-xl font-bold text-white">{selected.title}</h3>
+              </div>
+              <div className="p-5">
+                <p className="text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed">{selected.tagline}</p>
+                <div className="flex flex-wrap gap-1.5 mt-4">
+                  {selected.tech.map((t) => (
+                    <span key={t} className="rounded-full bg-purple-50 dark:bg-purple-950/40 text-purple-700 dark:text-purple-300 border border-purple-200/60 dark:border-purple-800/40 px-2.5 py-0.5 text-xs font-medium">
                       {t}
                     </span>
                   ))}
                 </div>
-
-                <div className="flex gap-3">
-                  {p.links.live && (
-                    <Button href={p.links.live} variant="outline">
-                      Live Demo
-                    </Button>
+                <div className="flex gap-3 mt-5">
+                  {selected.links.live && (
+                    <a href={selected.links.live} target="_blank" rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 text-sm font-semibold px-4 py-2 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-sm hover:scale-[1.02] transition-transform">
+                      <FaExternalLinkAlt size={11} /> Live Demo
+                    </a>
                   )}
-                  {p.links.repo && (
-                    <Button href={p.links.repo} variant="outline">
-                      GitHub
-                    </Button>
+                  {selected.links.repo && (
+                    <a href={selected.links.repo} target="_blank" rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 text-sm font-semibold px-4 py-2 rounded-xl border border-black/10 dark:border-white/10 hover:bg-black/5 dark:hover:bg-white/5 transition-colors">
+                      <FaGithub size={13} /> View Code
+                    </a>
                   )}
                 </div>
               </div>
-            </Card>
-          </motion.article>
-        ))}
-      </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-      {/* ---------- MODAL SECTION ---------- */}
+      {/* ── All Projects Modal ── */}
       <AnimatePresence>
         {showAll && (
           <motion.div
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+            onClick={() => setShowAll(false)}
           >
             <motion.div
-              className="bg-white dark:bg-zinc-900 rounded-2xl p-6 w-full max-w-6xl overflow-y-auto max-h-[80vh] shadow-2xl"
+              className="bg-white dark:bg-zinc-900 rounded-2xl p-6 w-full max-w-4xl overflow-y-auto max-h-[85vh] shadow-2xl"
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
-              transition={{ duration: 0.3 }}
+              transition={{ duration: 0.25 }}
+              onClick={(e) => e.stopPropagation()}
             >
-              <div className="flex justify-between items-center mb-4">
-                <h3 className="text-2xl font-bold">All Projects</h3>
+              <div className="flex justify-between items-center mb-6">
+                <h3 className="text-xl font-bold">
+                  More{" "}
+                  <span className="bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
+                    Projects
+                  </span>
+                </h3>
                 <button
                   onClick={() => setShowAll(false)}
-                  className="text-xl font-bold text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300"
+                  className="w-8 h-8 rounded-full border border-black/10 dark:border-white/10 flex items-center justify-center text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
                 >
-                  ✕
+                  <HiX size={14} />
                 </button>
               </div>
-
-              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                {remainingProjects.map((p) => (
+              <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                {remainingProjects.map((p, i) => (
                   <motion.div
                     key={p.title}
-                    className="rounded-xl border border-black/10 dark:border-white/10 overflow-hidden hover:shadow-lg transition"
-                    whileHover={{ scale: 1.02 }}
+                    initial={{ opacity: 0, y: 16 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: i * 0.07 }}
+                    whileHover={{ y: -3 }}
+                    className="group rounded-xl border border-black/[0.08] dark:border-white/[0.08] overflow-hidden hover:shadow-lg hover:shadow-purple-500/10 transition-all duration-300"
                   >
-                    <img
-                      src={imageMap[p.image]}
-                      alt={p.title}
-                      loading="lazy"
-                      className="w-full h-36 object-cover"
-                      // className="w-full h-full object-cover opacity-0 transition-all duration-700 ease-out"
-                    />
+                    <div className="relative h-36 overflow-hidden bg-zinc-100 dark:bg-zinc-800">
+                      <img src={imageMap[p.image]} alt={p.title} loading="lazy"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-400" />
+                    </div>
                     <div className="p-4">
-                      <h4 className="text-lg font-semibold mb-2">{p.title}</h4>
-                      <p className="text-sm text-zinc-600 dark:text-zinc-400 mb-3">
-                        {p.tagline}
-                      </p>
-                      <div className="flex flex-wrap gap-2 mb-3">
+                      <h4 className="text-sm font-bold mb-1">{p.title}</h4>
+                      <p className="text-xs text-zinc-500 dark:text-zinc-400 mb-3 line-clamp-2">{p.tagline}</p>
+                      <div className="flex flex-wrap gap-1 mb-3">
                         {p.tech.map((t) => (
-                          <span
-                            key={t}
-                            className="rounded-full border border-black/10 dark:border-white/10 px-2 py-0.5 text-xs"
-                          >
+                          <span key={t} className="rounded-full bg-purple-50 dark:bg-purple-950/40 text-purple-700 dark:text-purple-300 border border-purple-200/60 dark:border-purple-800/40 px-2 py-0.5 text-[10px] font-medium">
                             {t}
                           </span>
                         ))}
                       </div>
                       <div className="flex gap-2">
                         {p.links.live && (
-                          <Button href={p.links.live} variant="outline">
-                            Live Demo
-                          </Button>
+                          <a href={p.links.live} target="_blank" rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1 text-xs font-semibold px-3 py-1.5 rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:scale-[1.03] transition-transform">
+                            <FaExternalLinkAlt size={9} /> Live
+                          </a>
                         )}
                         {p.links.repo && (
-                          <Button href={p.links.repo} variant="outline">
-                            GitHub
-                          </Button>
+                          <a href={p.links.repo} target="_blank" rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1 text-xs font-semibold px-3 py-1.5 rounded-lg border border-black/10 dark:border-white/10 hover:bg-black/5 dark:hover:bg-white/5 transition-colors">
+                            <FaGithub size={10} /> Code
+                          </a>
                         )}
                       </div>
                     </div>
@@ -229,5 +293,3 @@ const Projects = () => {
 };
 
 export default Projects;
-
-
