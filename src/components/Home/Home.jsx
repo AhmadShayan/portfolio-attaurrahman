@@ -82,7 +82,10 @@ function AnimatedCounter({ to, suffix = "" }) {
   }, [inView, to]);
 
   return (
-    <span ref={ref} className="count-glow">
+    <span
+      ref={ref}
+      className="count-glow font-black bg-gradient-to-r from-purple-500 via-pink-500 to-indigo-500 bg-clip-text text-transparent"
+    >
       {count}{suffix}
     </span>
   );
@@ -372,7 +375,7 @@ export default function PortfolioPage() {
                     key={label}
                     className="flex flex-col items-center gap-1 p-3 rounded-2xl glass-card hover:shadow-lg hover:shadow-purple-500/10 transition-all duration-300"
                   >
-                    <span className="text-2xl font-black gradient-text-anim">
+                    <span className="text-2xl">
                       <AnimatedCounter to={value} suffix={suffix} />
                     </span>
                     <span className="text-[10px] text-zinc-500 dark:text-zinc-400 font-semibold text-center uppercase tracking-wide">
