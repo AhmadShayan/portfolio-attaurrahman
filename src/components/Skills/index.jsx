@@ -1,18 +1,12 @@
 import React from 'react'
-import { useState, useMemo, useRef, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import AboutInteractiveCard from "../About/About";
-import { FaLinkedin, FaTwitter } from "react-icons/fa";
-import { MdEmail } from "react-icons/md";
-
-// import { motion } from "framer-motion";
+import { motion } from "framer-motion";
 import {
   SiJavascript,
   SiNextdotjs,
   SiFramer,
   SiMui,
   SiTailwindcss,
-  SiRedux 
+  SiRedux,
 } from "react-icons/si";
 import {
   FaReact,
@@ -21,7 +15,6 @@ import {
   FaBootstrap,
   FaGithub,
 } from "react-icons/fa";
-// import { SiRedux } from "react-icons/si";
 
 
 // ----
@@ -151,7 +144,7 @@ const Skills = () => {
     </div>
     <div className="text-s font-2xl text-zinc-500">Blending creativity with code to turn ideas into interactive reality.</div>
     <div className="flex items-center justify-between bg-white text-black shadow-lg shadow-pink-300 rounded-lg px-6 py-3 mt-8 max-w-xs mx-auto font-bold">
-      <span>Continous Learning</span>
+      <span>Continuous Learning</span>
 <svg className="w-6 h-6 text-pink-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
   <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v12M6 6h12v12H6z" />
 </svg>

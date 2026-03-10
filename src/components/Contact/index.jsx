@@ -1,40 +1,6 @@
 import React from 'react'
-import { useState, useMemo, useRef, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import AboutInteractiveCard from "../About/About";
-import { FaLinkedin, FaTwitter } from "react-icons/fa";
-import { MdEmail } from "react-icons/md";
+import emailjs from "emailjs-com";
 
-// import { motion } from "framer-motion";
-import {
-  SiJavascript,
-  SiNextdotjs,
-  SiFramer,
-  SiMui,
-  SiTailwindcss,
-} from "react-icons/si";
-import {
-  FaReact,
-  FaHtml5,
-  FaCss3Alt,
-  FaBootstrap,
-  FaGithub,
-} from "react-icons/fa";
-import Skills from "../Skills";
-import portfolio from "../portfolio.json"
-
-const Section = ({ id, className = "", children }) => (
-  <section id={id} className={`scroll-mt-24 py-16 ${className}`}>
-    {" "}
-    {children}{" "}
-  </section>
-);
-
-const Container = ({ children }) => (
-  <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
-    {children}
-  </div>
-);
 const Card = ({ children, className = "" }) => (
   <div
     className={`rounded-2xl border border-black/10 dark:border-white/10 bg-white dark:bg-zinc-900 shadow-sm ${className}`}
@@ -59,9 +25,7 @@ const Button = ({ href, children, onClick, variant = "solid" }) => {
 };
 const Contact = () => {
   return (
-    //   <Section id="contact" className="bg-white dark:bg-zinc-900/60">
-    //     <Container>
-          <Card className="p-6">
+    <Card className="p-6">
             <h2 className="text-2xl font-bold">Contact</h2>
             <p className="mt-2 text-zinc-600 dark:text-zinc-300">
               Have a project or role in mind? Let’s talk.
@@ -119,9 +83,7 @@ const Contact = () => {
                 <Button>Send</Button>
               </div>
             </form>
-          </Card>
-    //     </Container>
-    //   </Section>
+    </Card>
   )
 }
 

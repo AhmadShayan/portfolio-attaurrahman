@@ -1,25 +1,6 @@
 import React from 'react'
-import { useState, useMemo, useRef, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import AboutInteractiveCard from "../About/About";
-import { FaLinkedin, FaTwitter } from "react-icons/fa";
-import { MdEmail } from "react-icons/md";
-import portfolio from "../portfolio.json"
-// import { motion } from "framer-motion";
-import {
-  SiJavascript,
-  SiNextdotjs,
-  SiFramer,
-  SiMui,
-  SiTailwindcss,
-} from "react-icons/si";
-import {
-  FaReact,
-  FaHtml5,
-  FaCss3Alt,
-  FaBootstrap,
-  FaGithub,
-} from "react-icons/fa";
+import { motion } from "framer-motion";
+import portfolio from "../portfolio.json";
 
 // ----
 const Section = ({ id, className = "", children }) => (

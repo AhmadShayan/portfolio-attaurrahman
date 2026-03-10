@@ -17,18 +17,6 @@ const IconBadge = ({ children }) => (
 function AboutInteractiveCard() {
   const [revealed, setRevealed] = useState(false);
   const boundsRef = useRef(null);
-const Section = ({ id, className = "", children }) => (
-  <section id={id} className={`scroll-mt-24 py-16 ${className}`}>
-    {" "}
-    {children}{" "}
-  </section>
-  
-);
-const Container = ({ children }) => (
-  <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
-    {children}
-  </div>
-);
 
   return (
     <>

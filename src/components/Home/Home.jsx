@@ -1,40 +1,16 @@
-import { useState, useMemo, useRef, useEffect } from "react";
+import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import AboutInteractiveCard from "../About/About";
-import { FaLinkedin, FaTwitter } from "react-icons/fa";
+import { FaLinkedin, FaTwitter, FaGithub } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
-import emailjs from "emailjs-com";
-// import { motion } from "framer-motion";
-import {
-  SiJavascript,
-  SiNextdotjs,
-  SiFramer,
-  SiMui,
-  SiTailwindcss,
-} from "react-icons/si";
-import {
-  FaReact,
-  FaHtml5,
-  FaCss3Alt,
-  FaBootstrap,
-  FaGithub,
-} from "react-icons/fa";
 import Skills from "../Skills";
 import Projects from "../Projects";
 import portfolio from "../portfolio.json";
-// import { Briefcase, Calendar } from "lucide-react";
 import Testimonials from "../Testimonials";
 import Education from "../Education";
 import Contact from "../Contact";
 import Experience from "../Experience";
-import "/MRATTAURRAHMAN.pdf";
 
-const iconMap = {
-  GitHub: <FaGithub size={20} className="text-gray-800 dark:text-white" />,
-  LinkedIn: <FaLinkedin size={20} className="text-blue-600" />,
-  X: <FaTwitter size={20} className="text-sky-500" />,
-  Email: <MdEmail size={20} className="text-red-500" />,
-};
 // ---------- Helpers ----------
 const navItems = [
   { id: "home", label: "Home" },
@@ -92,15 +68,30 @@ const Button = ({ href, children, onClick, variant = "solid" }) => {
   );
 };
 
+const floatingShapeColors = [
+  "#ff7f50",
+  "#87cefa",
+  "#32cd32",
+  "#ff69b4",
+  "#ffd700",
+];
+
 // ---------- Main Component ----------
 export default function PortfolioPage() {
   const [open, setOpen] = useState(false);
   const [dark, setDark] = useDarkMode();
-  const [flipped, setFlipped] = useState(false);
-  const [dragged, setDragged] = useState(false);
   const year = useMemo(() => new Date().getFullYear(), []);
-  const [revealed, setRevealed] = useState(false);
-  const boundsRef = useRef(null);
+  const floatingShapes = useMemo(
+    () =>
+      Array.from({ length: 8 }).map((_, i) => ({
+        width: 40 + Math.random() * 100,
+        height: 40 + Math.random() * 100,
+        color: floatingShapeColors[i % floatingShapeColors.length],
+        top: Math.random() * 100,
+        left: Math.random() * 100,
+      })),
+    []
+  );
   return (
     <div className="min-h-screen bg-zinc-50 text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100">
       {/* Navbar */}
@@ -178,25 +169,16 @@ export default function PortfolioPage() {
       >
         {/* Floating Shapes Layer */}
         <div className="absolute inset-0 z-0 pointer-events-none">
-          {Array.from({ length: 8 }).map((_, i) => (
+          {floatingShapes.map((shape, i) => (
             <div
               key={i}
               className="absolute rounded-full opacity-20 animate-float"
               style={{
-                width: `${40 + Math.random() * 100}px`,
-                height: `${40 + Math.random() * 100}px`,
-                backgroundColor: [
-                  "#ff7f50",
-                  "#87cefa",
-                  "#32cd32",
-                  "#ff69b4",
-                  "#ffd700",
-                  // "#ba55d3",
-                  // "#00ced1",
-                  // "#ffa07a",
-                ][i % 8],
-                top: `${Math.random() * 100}%`,
-                left: `${Math.random() * 100}%`,
+                width: `${shape.width}px`,
+                height: `${shape.height}px`,
+                backgroundColor: shape.color,
+                top: `${shape.top}%`,
+                left: `${shape.left}%`,
                 animationDelay: `${i * 1.5}s`,
               }}
             />
@@ -213,7 +195,7 @@ export default function PortfolioPage() {
             className="text-3xl sm:text-4xl md:text-5xl text-center font-extrabold tracking-tight"
           >
             <span className="text-zinc-900 dark:text-zinc-100 text-center">
-              HI, MySelf
+              Hi, I'm
             </span>{" "}
             <span className="bg-gradient-to-r from-purple-500 via-pink-600 to-purple-500 bg-clip-text text-transparent">
               Atta {portfolio.name}
@@ -257,7 +239,7 @@ export default function PortfolioPage() {
             </div>
             <Button
               onClick={() =>
-                window.open("/MRATTAURRAHMAN.pdf.pdf", "_blank")
+                window.open("/MRATTAURRAHMAN.pdf", "_blank")
               }
               variant="outline"
               className="px-6 py-3 text-lg"

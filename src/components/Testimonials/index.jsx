@@ -1,112 +1,7 @@
-// import React from 'react'
-// import { useState, useMemo, useRef, useEffect } from "react";
-// import { motion, AnimatePresence } from "framer-motion";
-// import portfolio from "../portfolio.json"
-// import { FaStar } from "react-icons/fa";
-// const Section = ({ id, className = "", children }) => (
-//   <section id={id} className={`scroll-mt-24 py-16 ${className}`}>
-//     {" "}
-//     {children}{" "}
-//   </section>
-// );
-
-// const Container = ({ children }) => (
-//   <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
-//     {children}
-//   </div>
-// );
-// const shuffle = (arr) => [...arr].sort(() => Math.random() - 0.5);
-// const Testimonials = () => {
-//     const [shuffled, setShuffled] = useState([]);
-//     // console.log("object,", testimonials);
-//  useEffect(() => {
-//     setShuffled(shuffle(portfolio.testimonials));
-//   }, []);
-
-//   return (
-//     <Section className="py-16 bg-white/60 dark:bg-zinc-900/60 overflow-hidden">
-//       <Container className="Testqimonials">
-//         <h2 className="text-2xl font-bold mb-10 text-center">Testimonials</h2>
-
-//         {/* Row 1 - Right to Left */}
-//         <div className="relative flex overflow-hidden">
-//           <motion.div
-//             className="flex gap-8"
-//             animate={{ x: ["0%", "-100%"] }}
-//             transition={{
-//               repeat: Infinity,
-//               duration: 30,
-//               ease: "linear",
-//             }}
-//           >
-//             {[...portfolio.testimonials, ...portfolio.testimonials].map((t, i) => (
-//               <div
-//                 key={i}
-//                 className="min-w-[300px] max-w-sm p-5 rounded-xl bg-white dark:bg-zinc-800 shadow hover:shadow-xl transition-shadow duration-300"
-//               >
-//                 {/* Stars */}
-//                 <div className="flex text-yellow-400 mb-2">
-//                   {Array.from({ length: 5 }).map((_, idx) => (
-//                     <FaStar key={idx} />
-//                   ))}
-//                 </div>
-//                 <p className="text-sm italic mb-3">“{t.text}”</p>
-//                 <p className="text-sm font-semibold">~ {t.author}</p>
-//               </div>
-//             ))}
-//           </motion.div>
-//         </div>
-
-//         {/* Row 2 - Left to Right (shuffled) */}
-//         <div className="relative flex overflow-hidden mt-10">
-//           <motion.div
-//             className="flex gap-8"
-//             animate={{ x: ["-100%", "0%"] }}
-//             transition={{
-//               repeat: Infinity,
-//               duration: 35,
-//               ease: "linear",
-//             }}
-//           >
-//             {[...shuffled, ...shuffled].map((t, i) => (
-//               <div
-//                 key={i}
-//                 className="min-w-[300px] max-w-sm p-5 rounded-xl bg-white dark:bg-zinc-800 shadow hover:shadow-xl transition-shadow duration-300"
-//               >
-//                 {/* Stars */}
-//                 <div className="flex text-yellow-400 mb-2">
-//                   {Array.from({ length: 5 }).map((_, idx) => (
-//                     <FaStar key={idx} />
-//                   ))}
-//                 </div>
-//                 <p className="text-sm italic mb-3">“{t.text}”</p>
-//                 <p className="text-sm font-semibold">~ {t.author}</p>
-//               </div>
-//             ))}
-//           </motion.div>
-//         </div>
-//       </Container>
-//     </Section>
-//   );
-// }
-
-// export default Testimonials
-
-
 import React, { useState, useEffect } from "react";
 import { motion, useAnimation } from "framer-motion";
 import portfolio from "../portfolio.json";
 import { FaStar } from "react-icons/fa";
-
-const Section = ({ id, className = "", children }) => (
-  <section id={id} className={`scroll-mt-24 py-16 ${className}`}>
-    {children}
-  </section>
-);
-
-const Container = ({ children }) => (
-  <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">{children}</div>
-);
 
 const shuffle = (arr) => [...arr].sort(() => Math.random() - 0.5);
 
@@ -143,81 +38,77 @@ const Testimonials = () => {
 
   return (
     <>
-    {/* // <Section className="py-16 bg-white/60 dark:bg-zinc-900/60 overflow-hidden"> */}
-      {/* <Container className="Testimonials"> */}
-        <h2 className="text-2xl font-bold mb-10 text-center bg-gradient-to-r from-purple-500 via-pink-500 to-sky-500 bg-clip-text text-transparent">Testimonials</h2>
+      <h2 className="text-2xl font-bold mb-10 text-center bg-gradient-to-r from-purple-500 via-pink-500 to-sky-500 bg-clip-text text-transparent">Testimonials</h2>
 
-        {/* Row 1 - Right to Left */}
-        <div
-          className="relative flex overflow-hidden "
-          onMouseEnter={() => handleHoverRow(controlsRow1)}
-          onMouseLeave={() => handleLeaveRow(controlsRow1, "left")}
-        >
-          <motion.div className="flex gap-8 min-w-full" animate={controlsRow1}>
-            {[...portfolio.testimonials, ...portfolio.testimonials].map((t, i) => (
-<motion.div
-  key={i}
-  className="min-w-[300px] max-w-sm p-5 m-2 rounded-xl bg-white dark:bg-zinc-800 shadow-lg transition-transform duration-300"
-  whileHover={{
-    scale: 1.05, // small zoom, not too much
-    boxShadow: `
-      0px 0px 12px 2px rgba(168, 85, 247, 0.5),   /* purple-500 */
-      0px 0px 14px 4px rgba(236, 72, 153, 0.4),  /* pink-500 */
-      0px 0px 16px 6px rgba(56, 189, 248, 0.4)   /* sky-500 */
-    `,
-    zIndex: 10,
-  }}
->
+      {/* Row 1 - Right to Left */}
+      <div
+        className="relative flex overflow-hidden "
+        onMouseEnter={() => handleHoverRow(controlsRow1)}
+        onMouseLeave={() => handleLeaveRow(controlsRow1, "left")}
+      >
+        <motion.div className="flex gap-8 min-w-full" animate={controlsRow1}>
+          {[...portfolio.testimonials, ...portfolio.testimonials].map((t, i) => (
+            <motion.div
+              key={i}
+              className="min-w-[300px] max-w-sm p-5 m-2 rounded-xl bg-white dark:bg-zinc-800 shadow-lg transition-transform duration-300"
+              whileHover={{
+                scale: 1.05,
+                boxShadow: `
+                  0px 0px 12px 2px rgba(168, 85, 247, 0.5),
+                  0px 0px 14px 4px rgba(236, 72, 153, 0.4),
+                  0px 0px 16px 6px rgba(56, 189, 248, 0.4)
+                `,
+                zIndex: 10,
+              }}
+            >
+              {/* Stars */}
+              <div className="flex text-yellow-400 mb-2">
+                {Array.from({ length: 5 }).map((_, idx) => (
+                  <FaStar key={idx} />
+                ))}
+              </div>
+              <p className="text-sm italic mb-3">"{t.text}"</p>
+              <p className="text-sm font-semibold">~ {t.author}</p>
+            </motion.div>
+          ))}
+        </motion.div>
+      </div>
 
-                {/* Stars */}
-                <div className="flex text-yellow-400 mb-2">
-                  {Array.from({ length: 5 }).map((_, idx) => (
-                    <FaStar key={idx} />
-                  ))}
-                </div>
-                <p className="text-sm italic mb-3">“{t.text}”</p>
-                <p className="text-sm font-semibold">~ {t.author}</p>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-
-        {/* Row 2 - Left to Right (shuffled) */}
-        <div
-          className="relative flex overflow-hidden mt-10"
-          onMouseEnter={() => handleHoverRow(controlsRow2)}
-          onMouseLeave={() => handleLeaveRow(controlsRow2, "right")}
-        >
-          <motion.div className="flex gap-8 min-w-full" animate={controlsRow2}>
-            {[...shuffled, ...shuffled].map((t, i) => (
-<motion.div
-  key={i}
-  className="min-w-[300px] max-w-sm p-5 m-2 rounded-xl bg-white dark:bg-zinc-800 shadow-lg transition-transform duration-300"
-  whileHover={{
-    scale: 1.05, // small zoom, not too much
-    boxShadow: `
-      0px 0px 12px 2px rgba(168, 85, 247, 0.5),   /* purple-500 */
-      0px 0px 14px 4px rgba(236, 72, 153, 0.4),  /* pink-500 */
-      0px 0px 16px 6px rgba(56, 189, 248, 0.4)   /* sky-500 */
-    `,
-    zIndex: 10,
-  }}
->
-                {/* Stars */}
-                <div className="flex text-yellow-400 mb-2">
-                  {Array.from({ length: 5 }).map((_, idx) => (
-                    <FaStar key={idx} />
-                  ))}
-                </div>
-                <p className="text-sm italic mb-3">“{t.text}”</p>
-                <p className="text-sm font-semibold">~ {t.author}</p>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      {/* </Container> */}
-    {/* // </Section> */}
-  </>);
+      {/* Row 2 - Left to Right (shuffled) */}
+      <div
+        className="relative flex overflow-hidden mt-10"
+        onMouseEnter={() => handleHoverRow(controlsRow2)}
+        onMouseLeave={() => handleLeaveRow(controlsRow2, "right")}
+      >
+        <motion.div className="flex gap-8 min-w-full" animate={controlsRow2}>
+          {[...shuffled, ...shuffled].map((t, i) => (
+            <motion.div
+              key={i}
+              className="min-w-[300px] max-w-sm p-5 m-2 rounded-xl bg-white dark:bg-zinc-800 shadow-lg transition-transform duration-300"
+              whileHover={{
+                scale: 1.05,
+                boxShadow: `
+                  0px 0px 12px 2px rgba(168, 85, 247, 0.5),
+                  0px 0px 14px 4px rgba(236, 72, 153, 0.4),
+                  0px 0px 16px 6px rgba(56, 189, 248, 0.4)
+                `,
+                zIndex: 10,
+              }}
+            >
+              {/* Stars */}
+              <div className="flex text-yellow-400 mb-2">
+                {Array.from({ length: 5 }).map((_, idx) => (
+                  <FaStar key={idx} />
+                ))}
+              </div>
+              <p className="text-sm italic mb-3">"{t.text}"</p>
+              <p className="text-sm font-semibold">~ {t.author}</p>
+            </motion.div>
+          ))}
+        </motion.div>
+      </div>
+    </>
+  );
 };
 
 export default Testimonials;
