@@ -1,218 +1,215 @@
 import { useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-// Brand icons
 import { FaHtml5, FaCss3Alt, FaBootstrap, FaReact, FaGithub } from "react-icons/fa";
-import { SiTailwindcss, SiJavascript, SiNextdotjs, SiMui,SiFramer  } from "react-icons/si";
-import { AiOutlineCloseCircle } from 'react-icons/ai'
-import { AiOutlineArrowRight } from 'react-icons/ai'
-import Profile from"../../../public/profile.png"
-/* --- tiny badge for skill icons --- */
-const IconBadge = ({ children }) => (
-  <span className="w-9 h-9 rounded-md border border-zinc-200 dark:border-zinc-700 grid place-items-center shadow-sm bg-white dark:bg-zinc-800">
-    {children}
-  </span>
-);
+import { SiTailwindcss, SiJavascript, SiNextdotjs, SiMui, SiFramer } from "react-icons/si";
+import { HiX, HiArrowRight, HiCode, HiLightBulb } from "react-icons/hi";
+import Profile from "../../../public/profile.png";
 
-/* --- right side interactive card --- */
+const techStack = [
+  { icon: <SiJavascript className="text-yellow-500" />, name: "JS" },
+  { icon: <FaReact className="text-sky-500" />, name: "React" },
+  { icon: <SiNextdotjs className="text-zinc-800 dark:text-white" />, name: "Next.js" },
+  { icon: <SiFramer className="text-pink-500" />, name: "Framer" },
+  { icon: <SiMui className="text-blue-500" />, name: "MUI" },
+  { icon: <FaHtml5 className="text-orange-500" />, name: "HTML5" },
+  { icon: <FaCss3Alt className="text-blue-600" />, name: "CSS3" },
+  { icon: <SiTailwindcss className="text-cyan-500" />, name: "Tailwind" },
+  { icon: <FaBootstrap className="text-purple-600" />, name: "Bootstrap" },
+  { icon: <FaGithub className="text-zinc-800 dark:text-white" />, name: "GitHub" },
+];
+
+const traits = [
+  {
+    icon: <HiCode size={22} className="text-purple-500" />,
+    title: "Adaptable",
+    desc: "Quick to learn new technologies",
+    gradient: "from-purple-500 to-pink-500",
+  },
+  {
+    icon: <HiLightBulb size={22} className="text-yellow-500" />,
+    title: "Curious",
+    desc: "Always exploring new concepts",
+    gradient: "from-sky-500 to-violet-500",
+  },
+];
+
 function AboutInteractiveCard() {
   const [revealed, setRevealed] = useState(false);
   const boundsRef = useRef(null);
 
   return (
-    <>
-      {/* <Section id="about" className="about ">
-        <Container> */}
-          {/* <div className="flex flex-row justify-center items-center"> */}
-          <div className="grid gap-10 md:grid-cols-2 items-center">
-            {/* Heading full-width */}
-            <div className="md:col-span-2 text-center">
-              <h2 className="text-4xl font-extrabold">
-                About{" "}
-                <span className="bg-gradient-to-r from-purple-500 via-pink-500 to-sky-500 bg-clip-text text-transparent">
-                  Me
-                </span>
-              </h2>
-              {/* <div className="mx-auto mt-3 h-1 w-24 rounded-full bg-gradient-to-r from-purple-500 via-pink-500 to-sky-500" /> */}
-            </div>
+    <div className="grid gap-10 md:grid-cols-2 items-center">
+      {/* ── Section Title ── */}
+      <div className="md:col-span-2 text-center">
+        <motion.h2
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="text-3xl sm:text-4xl font-extrabold"
+        >
+          About{" "}
+          <span className="bg-gradient-to-r from-purple-500 via-pink-500 to-sky-500 bg-clip-text text-transparent">
+            Me
+          </span>
+        </motion.h2>
+        <div className="mx-auto mt-4 h-1 w-16 rounded-full bg-gradient-to-r from-purple-500 to-pink-500" />
+      </div>
 
-            {/* Left: text + two feature cards */}
+      {/* ── Left: bio + trait cards ── */}
+      <motion.div
+        initial={{ opacity: 0, x: -24 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.55 }}
+        className="max-w-xl"
+      >
+        <p className="text-base sm:text-lg leading-8 text-zinc-600 dark:text-zinc-300">
+          I'm a React.js developer with a solid grip on JavaScript, React.js, and exploring
+          Next.js to take my projects to the next level. Over time, I've grown from writing
+          simple programs to building clean, responsive, and user-friendly web applications.
+        </p>
+        <p className="mt-5 text-base sm:text-lg leading-8 text-zinc-600 dark:text-zinc-300">
+          What excites me most is solving real problems through code — whether it's crafting
+          interactive UIs, optimizing performance, or exploring new technologies. I focus on
+          writing code that's not only functional but also easy to read and maintain.
+        </p>
 
-            <div className="max-w-xl">
-              <p className="text-lg leading-8 text-zinc-600 dark:text-zinc-300">
-                I'm a React.js developer with a solid grip on JavaScript,
-                React.js, and exploring Next.js to take my React projects to the
-                next level. Over time, I've moved from writing simple programs
-                to building clean, responsive, and user-friendly web
-                applications.
-              </p>
-              <p className="mt-6 text-lg leading-8 text-zinc-600 dark:text-zinc-300">
-                What excites me most is solving real problems through
-                code—whether it’s crafting interactive UIs, optimizing
-                performance, or exploring new technologies. I focus on writing
-                code that’s not only functional but also easy to read and
-                maintain, while always pushing myself to learn and grow as a
-                developer.
-              </p>
-
-              <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <div className="rounded-xl border border-zinc-200 dark:border-zinc-800 p-5 shadow-sm">
-                  <div className="text-2xl font-bold bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
-                    Adaptable
-                  </div>
-                  <div className="mt-1 text-sm text-zinc-500">
-                    Quick to learn new technologies
-                  </div>
-                </div>
-                <div className="rounded-xl border border-zinc-200 dark:border-zinc-800 p-5 shadow-sm">
-                  <div className="text-2xl font-bold bg-gradient-to-r from-sky-500 to-violet-500 bg-clip-text text-transparent">
-                    Curious
-                  </div>
-                  <div className="mt-1 text-sm text-zinc-500">
-                    Always exploring new concepts
-                  </div>
-                </div>
+        <div className="mt-8 grid grid-cols-2 gap-4">
+          {traits.map(({ icon, title, desc, gradient }) => (
+            <div
+              key={title}
+              className="flex flex-col gap-2 rounded-xl border border-zinc-200 dark:border-zinc-800 p-5 shadow-sm hover:shadow-md hover:border-purple-200 dark:hover:border-purple-800 transition-all duration-200 group"
+            >
+              {icon}
+              <div className={`text-lg font-bold bg-gradient-to-r ${gradient} bg-clip-text text-transparent`}>
+                {title}
               </div>
+              <div className="text-sm text-zinc-500">{desc}</div>
             </div>
+          ))}
+        </div>
+      </motion.div>
 
-            {/* Right: interactive photo → reveal card */}
-            {/* <div className="flex justify-center md:justify-center align-center height-full">
-              
-            </div> */}
-                                  <div className="flex  justify-center align-center relative w-auto sm:w-auto mx-auto md:mx-0">
-      <div ref={boundsRef} className="relative ">
-        <AnimatePresence initial={false} mode="wait">
-          {!revealed ? ( 
-            /* --- initial: big photo --- */
-            <motion.div
-              key="photo"
-              initial={{ opacity: 0, scale: 0.98 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.98 }}
-              transition={{ duration: 0.35 }}
-              className="rounded-2xl p-2 bg-white/70 dark:bg-zinc-900/70 backdrop-blur ring-1 ring-purple-300/40 shadow-xl"
-            >
-              <img
-                src={Profile} /* <-- replace with your image */
-                alt="Profile"
-                className="w-full h-[420px] rounded-xl object-cover"
-              />
-              {/* floating glow dots like the SS */}
+      {/* ── Right: interactive photo card ── */}
+      <motion.div
+        initial={{ opacity: 0, x: 24 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.55 }}
+        className="flex justify-center"
+      >
+        <div ref={boundsRef} className="relative">
+          <AnimatePresence initial={false} mode="wait">
+            {!revealed ? (
+              /* Photo state */
               <motion.div
-                className="absolute -top-3 left-2 h-10 w-[80px] rounded-full bg-purple-100 grid place-items-center shadow-md"
-                animate={{ y: [0, -4, 0] }}
-                transition={{ duration: 3, repeat: Infinity }}
+                key="photo"
+                initial={{ opacity: 0, scale: 0.97 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.97 }}
+                transition={{ duration: 0.35 }}
+                className="rounded-2xl p-2.5 bg-white/70 dark:bg-zinc-900/70 backdrop-blur ring-1 ring-purple-300/40 shadow-2xl relative"
               >
-                {/* draggable handle */}
-              
-<motion.button
-  title="Drag to reveal"
-  className="h-7 w-[70px] rounded-full flex items-center justify-center
-             bg-white dark:bg-zinc-800 
-             text-zinc-800 dark:text-white 
-             text-[11px] font-semibold 
-             border border-zinc-200 dark:border-zinc-700 
-             shadow-sm grid place-items-center"
-  drag
-  dragConstraints={boundsRef}
-  dragMomentum={false}
-  onDragEnd={(_, info) => {
-    const d = Math.hypot(info.offset.x, info.offset.y);
-    if (d > 28) setRevealed(true);
-  }}
->
-  <div className="flex items-center justify-center mb-1">
-    
-  Drag <AiOutlineArrowRight className="inline-block ml-1 mt-1"/>
-  </div>
-</motion.button>
-
-              
-              </motion.div>
-
-              {/* <motion.div
-                className="absolute -bottom-4 -left-4 h-11 w-11 rounded-full bg-sky-100 grid place-items-center text-lg"
-                animate={{ x: [0, 6, 0] }}
-                transition={{ duration: 3, repeat: Infinity }}
-              >
-                ⚡
-              </motion.div> */}
-            </motion.div>
-          ) : (
-            /* --- after drag: compact info card --- */
-            <motion.div
-              key="card"
-              initial={{ opacity: 0, y: 12, scale: 0.98 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: 12, scale: 0.98 }}
-              transition={{ duration: 0.35 }}
-              className="relative rounded-2xl p-3 bg-white dark:bg-zinc-900 ring-1 ring-purple-300/40 shadow-xl "
-            >
-              {/* close button */}
-              <button
-                onClick={() => setRevealed(false)}
-                className="absolute top-13  font-bold right-1 mr-2 bg-black text-white border rounded-full "
-                aria-label="Close"
-              >
-                <AiOutlineCloseCircle className="w-5 h-5"/>
-              </button>
-
-              <div className="flex gap-4">
-                              {/* <motion.div
-                className="relative -top-7 right-8 h-10 w-10 rounded-full bg-purple-100 grid place-items-center"
-                animate={{ y: [0, -4, 0] }}
-                transition={{ duration: 3, repeat: Infinity }}
-              >
-                💡
-              </motion.div> */}
                 <img
                   src={Profile}
-                  alt="Avatar"
-                  className="w-40 h-60 rounded-lg object-cover"
+                  alt="Atta Ur Rahman"
+                  className="w-full max-w-xs sm:max-w-sm h-[380px] rounded-xl object-cover"
                 />
-                <div className="flex-1">
-                  <div className="text-lg font-bold mt-5 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 bg-clip-text text-transparent">Atta Ur Rahman</div>
-                  <div className="text-s mt-1 font-2xl text-zinc-500">Frontend Developer</div>
 
-                  <div className="mt-3">
-                    <div className="text-sm font-semibold bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 bg-clip-text text-transparent">Skills</div>
-                    <div className="mt-3 flex flex-wrap gap-2">
-                      <IconBadge><SiJavascript  className="text-sky-500" /></IconBadge>
-                      <IconBadge><FaReact className="text-sky-500" /></IconBadge>
-                      <IconBadge><SiNextdotjs  className="text-sky-400" /></IconBadge>
-                      <IconBadge><SiFramer  className="text-yellow-500" /></IconBadge>
-                      <IconBadge><SiMui  className="text-yellow-500" /></IconBadge>
-                      </div>
-                      <div className="mt-3 flex flex-wrap gap-2">
-                      <IconBadge><FaHtml5  className="text-blue-600" /></IconBadge>
-                      <IconBadge><FaCss3Alt  className="text-yellow-500" /></IconBadge>
-                      <IconBadge><SiTailwindcss   className="text-blue-600" /></IconBadge>
-                      <IconBadge><FaBootstrap  className="text-black dark:text-white" /></IconBadge>
-                      <IconBadge><FaGithub className="text-black dark:text-white" /></IconBadge>
+                {/* Drag handle — floats above photo */}
+                <motion.div
+                  className="absolute -top-5 left-1/2 -translate-x-1/2 z-10"
+                  animate={{ y: [0, -6, 0] }}
+                  transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
+                >
+                  <motion.button
+                    title="Drag to reveal info"
+                    className="flex items-center gap-2 bg-white dark:bg-zinc-800 text-zinc-700 dark:text-zinc-200 text-xs font-semibold px-4 py-2 rounded-full shadow-xl border border-purple-200 dark:border-purple-700 hover:border-purple-500 dark:hover:border-purple-500 transition-colors cursor-grab active:cursor-grabbing select-none"
+                    drag
+                    dragConstraints={boundsRef}
+                    dragMomentum={false}
+                    onDragEnd={(_, info) => {
+                      if (Math.hypot(info.offset.x, info.offset.y) > 28) setRevealed(true);
+                    }}
+                  >
+                    Drag to reveal <HiArrowRight size={12} />
+                  </motion.button>
+                </motion.div>
+
+                {/* Decorative orbs */}
+                <div className="absolute -bottom-4 -right-4 w-20 h-20 rounded-full bg-pink-400/20 dark:bg-pink-600/10 blur-2xl pointer-events-none" />
+                <div className="absolute -top-4 -left-4 w-20 h-20 rounded-full bg-purple-400/20 dark:bg-purple-600/10 blur-2xl pointer-events-none" />
+              </motion.div>
+            ) : (
+              /* Revealed info card */
+              <motion.div
+                key="card"
+                initial={{ opacity: 0, y: 14, scale: 0.97 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 14, scale: 0.97 }}
+                transition={{ duration: 0.35 }}
+                className="relative rounded-2xl bg-white dark:bg-zinc-900 ring-1 ring-purple-300/40 shadow-2xl p-5 w-[min(340px,90vw)]"
+              >
+                {/* Close button */}
+                <button
+                  onClick={() => setRevealed(false)}
+                  className="absolute top-3 right-3 w-7 h-7 rounded-full flex items-center justify-center bg-zinc-100 dark:bg-zinc-800 text-zinc-500 hover:bg-red-100 dark:hover:bg-red-900/40 hover:text-red-500 transition-colors"
+                  aria-label="Close"
+                >
+                  <HiX size={13} />
+                </button>
+
+                {/* Profile row */}
+                <div className="flex gap-4 items-start">
+                  <img
+                    src={Profile}
+                    alt="Atta Ur Rahman"
+                    className="w-20 h-24 rounded-xl object-cover shrink-0 ring-2 ring-purple-200 dark:ring-purple-800"
+                  />
+                  <div className="pt-1">
+                    <div className="text-base font-bold bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 bg-clip-text text-transparent leading-snug">
+                      Atta Ur Rahman
+                    </div>
+                    <div className="text-sm text-zinc-500 dark:text-zinc-400 mt-0.5">
+                      Frontend Developer
+                    </div>
+                    <div className="mt-2.5 inline-flex items-center gap-1.5 text-[11px] font-semibold text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-950/40 border border-green-200 dark:border-green-800/60 px-2.5 py-1 rounded-full">
+                      <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
+                      Open to opportunities
                     </div>
                   </div>
                 </div>
-              </div>
 
-              <p className="mt-3 text-m font-bold text-zinc-600 dark:text-zinc-300">
-                React.js Developer crafting modern, responsive web apps.
-              </p>
+                {/* Tech stack */}
+                <div className="mt-4">
+                  <div className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest mb-3">
+                    Tech Stack
+                  </div>
+                  <div className="flex flex-wrap gap-1.5">
+                    {techStack.map((s) => (
+                      <span
+                        key={s.name}
+                        className="flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-lg border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 hover:border-purple-300 dark:hover:border-purple-700 hover:bg-purple-50 dark:hover:bg-purple-950/30 transition-colors"
+                      >
+                        <span className="text-base leading-none">{s.icon}</span>
+                        {s.name}
+                      </span>
+                    ))}
+                  </div>
+                </div>
 
-              {/* small decorative bulb */}
-
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
+                {/* Quote */}
+                <p className="mt-4 text-sm text-zinc-500 dark:text-zinc-400 italic border-t border-zinc-100 dark:border-zinc-800 pt-3">
+                  "Crafting modern, responsive web apps with React & Next.js"
+                </p>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      </motion.div>
     </div>
-          </div>
-
-    {/* </div> */}
-        {/* </Container>
-
-      </Section> */}
-
-
-    </>
   );
 }
+
 export default AboutInteractiveCard;

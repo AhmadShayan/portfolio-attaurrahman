@@ -1,8 +1,9 @@
 import { useState, useMemo, useEffect, useRef } from "react";
 import { motion, AnimatePresence, useInView } from "framer-motion";
 import AboutInteractiveCard from "../About/About";
-import { FaLinkedin, FaTwitter, FaGithub } from "react-icons/fa";
+import { FaLinkedin, FaTwitter, FaGithub, FaHeart, FaArrowUp } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
+import { HiArrowRight, HiDownload } from "react-icons/hi";
 import Skills from "../Skills";
 import Projects from "../Projects";
 import portfolio from "../portfolio.json";
@@ -79,21 +80,20 @@ function AnimatedCounter({ to, suffix = "" }) {
   }, [inView, to]);
 
   return (
-    <span ref={ref}>
-      {count}
-      {suffix}
+    <span ref={ref} className="count-glow">
+      {count}{suffix}
     </span>
   );
 }
 
 // ---------- Helpers ----------
 const navItems = [
-  { id: "home", label: "Home" },
-  { id: "about", label: "About" },
-  { id: "skills", label: "Skills" },
-  { id: "projects", label: "Projects" },
+  { id: "home",       label: "Home" },
+  { id: "about",      label: "About" },
+  { id: "skills",     label: "Skills" },
+  { id: "projects",   label: "Projects" },
   { id: "experience", label: "Experience" },
-  { id: "contact", label: "Contact" },
+  { id: "contact",    label: "Contact" },
 ];
 
 const Section = ({ id, className = "", children }) => (
@@ -102,8 +102,8 @@ const Section = ({ id, className = "", children }) => (
   </section>
 );
 
-const Container = ({ children }) => (
-  <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
+const Container = ({ children, className = "" }) => (
+  <div className={`mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 ${className}`}>
     {children}
   </div>
 );
@@ -113,7 +113,7 @@ const Button = ({ href, children, onClick, variant = "solid", className = "" }) 
     "inline-flex items-center justify-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold transition-all duration-200 active:scale-[.97]";
   const styles = {
     solid:
-      "bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 hover:scale-[1.02]",
+      "btn-glow bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 hover:scale-[1.02]",
     outline:
       "border border-zinc-300 dark:border-zinc-700 hover:border-purple-400 dark:hover:border-purple-500 hover:bg-purple-50 dark:hover:bg-purple-950/30",
   };
@@ -125,20 +125,20 @@ const Button = ({ href, children, onClick, variant = "solid", className = "" }) 
   );
 };
 
-const floatingShapeColors = ["#a855f7", "#ec4899", "#6366f1", "#f59e0b", "#10b981", "#06b6d4"];
+const floatingShapeColors = ["#a855f7","#ec4899","#6366f1","#f59e0b","#10b981","#06b6d4"];
 
 const socialIconMap = {
-  GitHub: <FaGithub size={17} />,
+  GitHub:   <FaGithub size={17} />,
   LinkedIn: <FaLinkedin size={17} />,
-  X: <FaTwitter size={17} />,
-  Email: <MdEmail size={17} />,
+  X:        <FaTwitter size={17} />,
+  Email:    <MdEmail size={17} />,
 };
 
 const socialColorMap = {
-  GitHub: "hover:bg-zinc-800 hover:text-white hover:border-zinc-700",
+  GitHub:   "hover:bg-zinc-800 hover:text-white hover:border-zinc-700",
   LinkedIn: "hover:bg-blue-600 hover:text-white hover:border-blue-600",
-  X: "hover:bg-sky-500 hover:text-white hover:border-sky-500",
-  Email: "hover:bg-red-500 hover:text-white hover:border-red-500",
+  X:        "hover:bg-sky-500 hover:text-white hover:border-sky-500",
+  Email:    "hover:bg-red-500 hover:text-white hover:border-red-500",
 };
 
 // ---------- Main Component ----------
@@ -153,18 +153,18 @@ export default function PortfolioPage() {
 
   const floatingShapes = useMemo(
     () =>
-      Array.from({ length: 6 }).map((_, i) => ({
-        width: 60 + Math.random() * 140,
+      Array.from({ length: 8 }).map((_, i) => ({
+        width:  60 + Math.random() * 140,
         height: 60 + Math.random() * 140,
-        color: floatingShapeColors[i % floatingShapeColors.length],
-        top: Math.random() * 100,
-        left: Math.random() * 100,
-        delay: i * 2,
+        color:  floatingShapeColors[i % floatingShapeColors.length],
+        top:    Math.random() * 100,
+        left:   Math.random() * 100,
+        delay:  i * 1.8,
       })),
     []
   );
 
-  // Scroll progress + back-to-top visibility
+  // Scroll progress + back-to-top
   useEffect(() => {
     const handler = () => {
       const total = document.documentElement.scrollHeight - window.innerHeight;
@@ -175,7 +175,7 @@ export default function PortfolioPage() {
     return () => window.removeEventListener("scroll", handler);
   }, []);
 
-  // Active section tracking via IntersectionObserver
+  // Active section tracking
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -194,10 +194,11 @@ export default function PortfolioPage() {
 
   return (
     <div className="min-h-screen bg-zinc-50 text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100">
+
       {/* ── Scroll Progress Bar ── */}
       <div className="fixed top-0 left-0 right-0 z-[60] h-[3px] bg-zinc-200/60 dark:bg-zinc-800/60">
         <motion.div
-          className="h-full bg-gradient-to-r from-purple-500 via-pink-500 to-indigo-500"
+          className="h-full shimmer-line"
           style={{ width: `${scrollProgress}%` }}
         />
       </div>
@@ -214,7 +215,7 @@ export default function PortfolioPage() {
               </span>
             </a>
 
-            {/* Desktop Nav Links */}
+            {/* Desktop Nav */}
             <div className="hidden md:flex items-center gap-1">
               {navItems.map((item) => (
                 <a
@@ -275,7 +276,6 @@ export default function PortfolioPage() {
           <AnimatePresence>
             {open && (
               <motion.div
-                id="mobile-menu"
                 initial={{ height: 0, opacity: 0 }}
                 animate={{ height: "auto", opacity: 1 }}
                 exit={{ height: 0, opacity: 0 }}
@@ -307,12 +307,12 @@ export default function PortfolioPage() {
       {/* ── Hero ── */}
       <section
         id="home"
-        className="scroll-mt-20 relative min-h-screen overflow-hidden flex items-center justify-center"
+        className="scroll-mt-20 relative min-h-screen overflow-hidden flex items-center justify-center bg-dot-grid noise-hero"
       >
         {/* Gradient mesh blobs */}
         <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-          <div className="absolute -top-20 -left-20 w-[500px] h-[500px] bg-purple-400/20 dark:bg-purple-600/10 rounded-full blur-3xl" />
-          <div className="absolute -bottom-20 -right-20 w-[500px] h-[500px] bg-pink-400/20 dark:bg-pink-600/10 rounded-full blur-3xl" />
+          <div className="absolute -top-24 -left-24 w-[560px] h-[560px] bg-purple-400/20 dark:bg-purple-600/10 rounded-full blur-3xl" />
+          <div className="absolute -bottom-24 -right-24 w-[560px] h-[560px] bg-pink-400/20 dark:bg-pink-600/10 rounded-full blur-3xl" />
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-indigo-400/10 dark:bg-indigo-600/10 rounded-full blur-3xl" />
         </div>
 
@@ -321,12 +321,12 @@ export default function PortfolioPage() {
           {floatingShapes.map((shape, i) => (
             <div
               key={i}
-              className="absolute rounded-full opacity-[0.06] dark:opacity-[0.1] animate-float"
+              className="absolute rounded-full opacity-[0.06] dark:opacity-[0.09] animate-float"
               style={{
-                width: `${shape.width}px`,
+                width:  `${shape.width}px`,
                 height: `${shape.height}px`,
                 backgroundColor: shape.color,
-                top: `${shape.top}%`,
+                top:  `${shape.top}%`,
                 left: `${shape.left}%`,
                 animationDelay: `${shape.delay}s`,
               }}
@@ -408,13 +408,13 @@ export default function PortfolioPage() {
               }
               variant="solid"
             >
-              View My Work →
+              View My Work <HiArrowRight size={14} />
             </Button>
             <Button
               onClick={() => window.open("/MRATTAURRAHMAN.pdf", "_blank")}
               variant="outline"
             >
-              📄 Download CV
+              <HiDownload size={14} /> Download CV
             </Button>
           </motion.div>
 
@@ -423,7 +423,7 @@ export default function PortfolioPage() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.75 }}
-            className="mt-14 grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-10 w-full max-w-2xl"
+            className="mt-14 grid grid-cols-2 sm:grid-cols-4 gap-5 w-full max-w-2xl"
           >
             {[
               { value: 10, suffix: "+", label: "Projects Built" },
@@ -433,12 +433,14 @@ export default function PortfolioPage() {
             ].map(({ value, suffix, label }) => (
               <div
                 key={label}
-                className="flex flex-col items-center gap-1 p-4 rounded-2xl bg-white/60 dark:bg-white/5 border border-black/5 dark:border-white/10 backdrop-blur-sm"
+                className="flex flex-col items-center gap-1.5 p-4 rounded-2xl bg-white/70 dark:bg-white/5 border border-black/5 dark:border-white/10 backdrop-blur-sm hover:border-purple-200 dark:hover:border-purple-800 hover:shadow-lg hover:shadow-purple-500/10 transition-all duration-300"
               >
                 <span className="text-3xl font-extrabold bg-gradient-to-r from-purple-500 via-pink-500 to-indigo-500 bg-clip-text text-transparent">
                   <AnimatedCounter to={value} suffix={suffix} />
                 </span>
-                <span className="text-xs text-zinc-500 dark:text-zinc-400 font-medium">{label}</span>
+                <span className="text-xs text-zinc-500 dark:text-zinc-400 font-medium text-center">
+                  {label}
+                </span>
               </div>
             ))}
           </motion.div>
@@ -487,10 +489,10 @@ export default function PortfolioPage() {
             exit={{ opacity: 0, scale: 0.7 }}
             transition={{ duration: 0.2 }}
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            className="fixed bottom-6 right-6 z-40 w-10 h-10 rounded-xl bg-gradient-to-br from-purple-600 to-pink-600 text-white shadow-lg shadow-purple-500/30 flex items-center justify-center hover:scale-110 transition-transform text-lg font-bold"
+            className="fixed bottom-6 right-6 z-40 w-10 h-10 rounded-xl bg-gradient-to-br from-purple-600 to-pink-600 text-white shadow-lg shadow-purple-500/30 flex items-center justify-center hover:scale-110 transition-transform"
             aria-label="Back to top"
           >
-            ↑
+            <FaArrowUp size={13} />
           </motion.button>
         )}
       </AnimatePresence>
@@ -532,27 +534,120 @@ export default function PortfolioPage() {
         </Container>
       </Section>
 
+      {/* ── Pre-footer CTA ── */}
+      <section className="relative overflow-hidden bg-gradient-to-br from-purple-600 via-pink-600 to-indigo-600 py-24">
+        {/* Background dot grid */}
+        <div className="absolute inset-0 bg-dot-grid opacity-10 pointer-events-none" />
+        {/* Blobs */}
+        <div className="absolute -top-16 -left-16 w-64 h-64 rounded-full bg-white/10 blur-3xl pointer-events-none" />
+        <div className="absolute -bottom-16 -right-16 w-64 h-64 rounded-full bg-white/10 blur-3xl pointer-events-none" />
+
+        <Container className="relative z-10 flex flex-col items-center text-center">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-4 py-1.5 text-sm font-medium text-white/90 mb-6"
+          >
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-white" />
+            </span>
+            Open to new opportunities
+          </motion.div>
+
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.55 }}
+            className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white leading-tight max-w-2xl"
+          >
+            Ready to build something{" "}
+            <span className="underline decoration-white/40 decoration-wavy underline-offset-4">
+              amazing?
+            </span>
+          </motion.h2>
+
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+            className="mt-5 text-white/75 text-lg max-w-md"
+          >
+            I'm available for freelance, full-time roles, or open-source
+            collaboration. Let's connect and make something great.
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.3 }}
+            className="mt-9 flex flex-wrap justify-center gap-4"
+          >
+            <a
+              href="#contact"
+              className="btn-glow inline-flex items-center gap-2 px-7 py-3.5 bg-white text-purple-700 font-bold rounded-xl hover:scale-[1.03] transition-all duration-200 shadow-xl shadow-black/20"
+            >
+              Get In Touch <HiArrowRight size={16} />
+            </a>
+            <a
+              href="/MRATTAURRAHMAN.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-7 py-3.5 bg-white/10 text-white border border-white/25 font-bold rounded-xl hover:bg-white/20 transition-colors duration-200"
+            >
+              <HiDownload size={16} /> Download CV
+            </a>
+          </motion.div>
+        </Container>
+      </section>
+
       {/* ── Footer ── */}
       <footer className="border-t border-black/5 dark:border-white/5 py-10 bg-white/50 dark:bg-zinc-950/50">
         <Container>
-          <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
-            <p className="text-sm text-zinc-500">
-              © {year}{" "}
-              <span className="font-semibold bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
-                Atta {portfolio.name}
+          <div className="flex flex-col items-center justify-between gap-6 sm:flex-row">
+            {/* Brand */}
+            <div className="flex flex-col items-center sm:items-start gap-1">
+              <span className="font-bold text-base tracking-tight">
+                Atta{" "}
+                <span className="bg-gradient-to-r from-purple-500 via-pink-500 to-indigo-500 bg-clip-text text-transparent">
+                  {portfolio.name}
+                </span>
               </span>
-              . Crafted with ❤️ & React
-            </p>
-            <div className="flex flex-wrap gap-5">
+              <p className="text-xs text-zinc-400 dark:text-zinc-500 flex items-center gap-1">
+                Crafted with <FaHeart size={10} className="text-pink-500 animate-pulse" /> &amp; React · {year}
+              </p>
+            </div>
+
+            {/* Nav links */}
+            <div className="flex flex-wrap justify-center gap-4">
+              {navItems.map((item) => (
+                <a
+                  key={item.id}
+                  href={`#${item.id}`}
+                  className="text-xs text-zinc-500 hover:text-purple-600 dark:hover:text-purple-400 transition-colors font-medium"
+                >
+                  {item.label}
+                </a>
+              ))}
+            </div>
+
+            {/* Social icons */}
+            <div className="flex gap-2">
               {portfolio.socials.map((s) => (
                 <a
                   key={s.label}
                   href={s.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
+                  title={s.label}
+                  className={`w-8 h-8 rounded-lg border border-black/10 dark:border-white/10 bg-white dark:bg-zinc-900 flex items-center justify-center text-zinc-500 dark:text-zinc-400 transition-all duration-200 hover:scale-110 text-sm ${socialColorMap[s.label] ?? ""}`}
                 >
-                  {s.label}
+                  {socialIconMap[s.label]}
                 </a>
               ))}
             </div>
